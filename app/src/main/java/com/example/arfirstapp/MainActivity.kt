@@ -17,6 +17,7 @@ import com.google.ar.sceneform.SkeletonNode
 import com.google.ar.sceneform.animation.ModelAnimator
 import com.google.ar.sceneform.math.Vector3Evaluator
 import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_main.*
@@ -80,29 +81,27 @@ class MainActivity : AppCompatActivity() {
                 transformableNode.setParent(startAnchorNode)
 
                 transformableNode.setOnTapListener { _, _ ->
-                    textView2.visibility = View.VISIBLE
                     val mp = MediaPlayer.create(this, R.raw.tiger)
                     mp.start()
-//                    val anchor = session?.createAnchor(Pose(widgetPos, floatArrayOf(0f,0f,0f,0f)))
-//                    val anchorNode = AnchorNode(anchor)
-//                    anchorNode.setParent(arFragment.arSceneView.scene)
-//                    val node = Node()
-//
-//                    ModelRenderable.builder()
-//                        .setSource(this,R.id.textView)
-//                        .build()
-//                        .thenAccept {
-//                                renderable ->
-//                            node.renderable = renderable
-//                        }
-//                        .exceptionally {
-//                            it.printStackTrace()
-//                            null
-//                        }
-//                    node.setParent(anchorNode)
+                    val anchor = session?.createAnchor(Pose(widgetPos, floatArrayOf(0f,0f,0f,0f)))
+                    val anchorNode = AnchorNode(anchor)
+                    anchorNode.setParent(arFragment.arSceneView.scene)
+                    val node = Node()
+
+                    ViewRenderable.builder()
+                        .setView(this,R.layout.info)
+                        .build()
+                        .thenAccept {
+                                renderable ->
+                            node.renderable = renderable
+                        }
+                        .exceptionally {
+                            it.printStackTrace()
+                            null
+                        }
+                    node.setParent(anchorNode)
                 }
 
-//                val filamentAsset = modelRenderable.
 
                 val objectAnimator = ObjectAnimator()
                 objectAnimator.setAutoCancel(true)
